@@ -28,7 +28,214 @@
  <div class="scroll-spacer" aria-hidden="true"></div>
      <div class="scroll-spacer" aria-hidden="true"></div>
 
-   <h1>Image Gallery</h1>
+   <!-- Image gallery section: paste this where you want the gallery to appear -->
+<section id="image-gallery" aria-labelledby="gallery-title">
+  <h2 id="gallery-title">Photo Gallery</h2>
+
+  <!-- Thumbnails grid -->
+  <div class="gallery-grid" role="list">
+    <!-- Replace these src values with your images (e.g., images/photo1.jpg) -->
+    <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
+      <img src="images/photo1.jpg" alt="Caption for photo 1">
+    </button>
+    <button class="gallery-item" data-index="1" aria-label="Open photo 2" role="listitem">
+      <img src="images/photo2.jpg" alt="Caption for photo 2">
+    </button>
+    <button class="gallery-item" data-index="2" aria-label="Open photo 3" role="listitem">
+      <img src="images/photo3.jpg" alt="Caption for photo 3">
+    </button>
+    <button class="gallery-item" data-index="3" aria-label="Open photo 4" role="listitem">
+      <img src="images/photo4.jpg" alt="Caption for photo 4">
+    </button>
+    <!-- Add more items as needed (increment data-index) -->
+  </div>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="lightbox-close" aria-label="Close gallery">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="">
+      <p id="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-next" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <style>
+    /* Gallery grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .gallery-item {
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+      transition: transform .25s ease;
+    }
+    .gallery-item:hover img,
+    .gallery-item:focus img {
+      transform: scale(1.05);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      padding: 20px;
+    }
+    .lightbox[aria-hidden="false"] { display: flex; }
+
+    .lightbox-content {
+      max-width: 95%;
+      max-height: 85%;
+      text-align: center;
+      color: #fff;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+    #lightbox-caption {
+      margin-top: 8px;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* Controls */
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      font-size: 2rem;
+      line-height: 1;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .lightbox-close {
+      top: 16px;
+      right: 18px;
+      font-size: 2.4rem;
+    }
+    .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
+    .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
+
+    /* Accessibility focus styles */
+    .gallery-item:focus,
+    .lightbox-close:focus,
+    .lightbox-prev:focus,
+    .lightbox-next:focus {
+      outline: 3px solid #ffd166;
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 480px) {
+      .gallery-item img { height: 110px; }
+      .lightbox-prev, .lightbox-next { font-size: 1.6rem; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const items = Array.from(document.querySelectorAll('#image-gallery .gallery-item'));
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const btnClose = document.querySelector('.lightbox-close');
+      const btnPrev = document.querySelector('.lightbox-prev');
+      const btnNext = document.querySelector('.lightbox-next');
+      let currentIndex = 0;
+
+      if (!items.length) return;
+
+      function open(index) {
+        const img = items[index].querySelector('img');
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt || '';
+        lightboxCaption.textContent = img.alt || '';
+        currentIndex = index;
+        lightbox.setAttribute('aria-hidden', 'false');
+        // trap focus by focusing close button
+        btnClose.focus();
+      }
+
+      function close() {
+        lightbox.setAttribute('aria-hidden', 'true');
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        open(currentIndex);
+      }
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        open(currentIndex);
+      }
+
+      items.forEach((btn, i) => {
+        btn.addEventListener('click', () => open(i));
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(i);
+          }
+        });
+      });
+
+      btnClose.addEventListener('click', close);
+      btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+      btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+
+      // Close when clicking outside content
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) close();
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.getAttribute('aria-hidden') === 'false') {
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowRight') showNext();
+          if (e.key === 'ArrowLeft') showPrev();
+        }
+      });
+
+      // Prevent scrolling while lightbox open
+      const observer = new MutationObserver(() => {
+        if (lightbox.getAttribute('aria-hidden') === 'false') {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      });
+      observer.observe(lightbox, { attributes: true, attributeFilter: ['aria-hidden'] });
+    })();
+  </script>
+</section>
 
     
 
