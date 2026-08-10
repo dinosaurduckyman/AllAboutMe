@@ -48,7 +48,7 @@
       <img src="PHOTO-2026-06-08-13-24-37 (1).jpg" alt="Viraaj winning 2nd at Halton Track and Field">
     </button>
     <button class="gallery-item" data-index="4" aria-label="Open photo 5" role="listitem">
-      <img src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
+      <img class="rotated" src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
     </button>
     <button class="gallery-item" data-index="5" aria-label="Open photo 6" role="listitem">
       <img src="image.png" alt="Viraaj holding a Trophy he had won in chess with his cricket jersey on.">
@@ -98,6 +98,9 @@
       object-fit: cover;
       display: block;
       transition: transform .25s ease;
+    }
+    .gallery-item img.rotated {
+      transform: rotate(90deg);
     }
     .gallery-item:hover img,
     .gallery-item:focus img {
