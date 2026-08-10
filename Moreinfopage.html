@@ -67,7 +67,6 @@
     <div class="lightbox-content">
       <img id="lightbox-image" src="" alt="">
       <p id="lightbox-caption"></p>
-      <button id="rotate-btn" class="rotate-btn" aria-label="Rotate image" style="display: none;">🔄 Rotate</button>
     </div>
     <button class="lightbox-next" aria-label="Next image">&#10095;</button>
   </div>
@@ -124,9 +123,6 @@
       max-height: 95%;
       text-align: center;
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     .lightbox-content img {
       max-width: 100%;
@@ -134,32 +130,14 @@
       max-height: 90vh;
       border-radius: 6px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-      transition: transform 0.3s ease;
+    }
+    .lightbox-content img.rotated {
+      transform: rotate(90deg);
     }
     #lightbox-caption {
       margin-top: 8px;
       font-size: 1rem;
       opacity: 0.9;
-    }
-
-    /* Rotate button */
-    .rotate-btn {
-      margin-top: 12px;
-      background: #1f8ef1;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .rotate-btn:hover {
-      background: #1a7bc8;
-    }
-    .rotate-btn:focus {
-      outline: 3px solid #ffd166;
-      outline-offset: 3px;
     }
 
     /* Controls */
@@ -208,9 +186,7 @@
       const btnClose = document.querySelector('.lightbox-close');
       const btnPrev = document.querySelector('.lightbox-prev');
       const btnNext = document.querySelector('.lightbox-next');
-      const rotateBtn = document.getElementById('rotate-btn');
       let currentIndex = 0;
-      let imageRotation = 0;
 
       if (!items.length) return;
 
@@ -221,15 +197,11 @@
         lightboxCaption.textContent = img.alt || '';
         currentIndex = index;
         
-        // Start with 90 degrees rotation for index 5, 0 for others
-        imageRotation = (index === 5) ? 90 : 0;
-        lightboxImage.style.transform = `rotate(${imageRotation}deg)`;
-        
-        // Show rotate button only for index 5
+        // Apply rotation class only for index 5
         if (index === 5) {
-          rotateBtn.style.display = 'block';
+          lightboxImage.classList.add('rotated');
         } else {
-          rotateBtn.style.display = 'none';
+          lightboxImage.classList.remove('rotated');
         }
         
         lightbox.setAttribute('aria-hidden', 'false');
@@ -250,11 +222,6 @@
         open(currentIndex);
       }
 
-      function rotateImage() {
-        imageRotation = (imageRotation + 90) % 360;
-        lightboxImage.style.transform = `rotate(${imageRotation}deg)`;
-      }
-
       items.forEach((btn, i) => {
         btn.addEventListener('click', () => open(i));
         btn.addEventListener('keydown', (e) => {
@@ -268,7 +235,6 @@
       btnClose.addEventListener('click', close);
       btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
       btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-      rotateBtn.addEventListener('click', (e) => { e.stopPropagation(); rotateImage(); });
 
       // Close when clicking outside content
       lightbox.addEventListener('click', (e) => {
