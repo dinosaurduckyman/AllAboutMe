@@ -100,10 +100,10 @@
       transition: transform .25s ease;
     }
     .gallery-item img.rotated {
-      transform: rotate(90deg);
+      transform: rotate(90deg) !important;
     }
-    .gallery-item:hover img,
-    .gallery-item:focus img {
+    .gallery-item:hover img:not(.rotated),
+    .gallery-item:focus img:not(.rotated) {
       transform: scale(1.05);
     }
 
