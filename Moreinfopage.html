@@ -12,30 +12,77 @@
 </head>
 <body>
   <script>
-/* =========================================
-   INVISIBLE AUTOMATIC ELEVATOR MUSIC
-========================================= */
+
 
 (() => {
 
   let audioContext = null;
   let masterGain = null;
-  let musicTimer = null;
-  let currentChord = 0;
+  let playing = false;
+  let noteIndex = 0;
+
 
   /*
-    Calm elevator/lounge progression
+    Ode to Joy melody
+    E D C D E E E
+    D D D
+    E G G
+    E D C D E E E
+    D D E D C
   */
 
-  const chords = [
-    [261.63, 329.63, 392.00, 493.88], // Cmaj7
-    [220.00, 261.63, 329.63, 392.00], // Am7
-    [293.66, 349.23, 440.00, 523.25], // Dm7
-    [196.00, 246.94, 293.66, 349.23]  // G7
+  const melody = [
+    { note: "E4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+    { note: "C4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+
+    { note: "E4", duration: 0.55 },
+    { note: "E4", duration: 0.55 },
+    { note: "E4", duration: 1.1 },
+
+    { note: "D4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+    { note: "D4", duration: 1.1 },
+
+    { note: "E4", duration: 0.55 },
+    { note: "G4", duration: 0.55 },
+    { note: "G4", duration: 1.1 },
+
+    { note: "E4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+    { note: "C4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+
+    { note: "E4", duration: 0.55 },
+    { note: "E4", duration: 0.55 },
+    { note: "E4", duration: 1.1 },
+
+    { note: "D4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+    { note: "E4", duration: 0.55 },
+    { note: "D4", duration: 0.55 },
+
+    { note: "C4", duration: 1.5 }
   ];
 
 
-  function createMusic() {
+  /*
+    Convert musical notes to frequencies.
+  */
+
+  const frequencies = {
+    C4: 261.63,
+    D4: 293.66,
+    E4: 329.63,
+    F4: 349.23,
+    G4: 392.00,
+    A4: 440.00,
+    B4: 493.88
+  };
+
+
+  function createAudio() {
 
     if (audioContext) {
       return;
@@ -46,10 +93,18 @@
       window.webkitAudioContext
     )();
 
-    masterGain = audioContext.createGain();
 
-    // Quiet background volume
-    masterGain.gain.value = 0.06;
+    masterGain =
+      audioContext.createGain();
+
+
+    /*
+      Quiet background volume.
+      Increase to 0.10 if you want it louder.
+    */
+
+    masterGain.gain.value = 0.055;
+
 
     masterGain.connect(
       audioContext.destination
@@ -57,95 +112,145 @@
   }
 
 
-  function playChord() {
+  function playNote(note, duration) {
 
-    if (!audioContext) {
+    if (!audioContext || !playing) {
       return;
     }
 
-    const chord =
-      chords[currentChord % chords.length];
+
+    const oscillator =
+      audioContext.createOscillator();
+
+    const gain =
+      audioContext.createGain();
+
+
+    oscillator.type = "sine";
+
+    oscillator.frequency.value =
+      frequencies[note];
+
 
     const now =
       audioContext.currentTime;
 
 
-    chord.forEach((frequency) => {
+    /*
+      Soft fade-in.
+    */
 
-      const oscillator =
-        audioContext.createOscillator();
-
-      const gain =
-        audioContext.createGain();
-
-
-      // Soft, smooth sound
-      oscillator.type = "sine";
-
-      oscillator.frequency.value =
-        frequency;
-
-
-      // Fade in
-      gain.gain.setValueAtTime(
-        0,
-        now
-      );
-
-      gain.gain.linearRampToValueAtTime(
-        0.10,
-        now + 0.8
-      );
-
-
-      // Fade out
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 5.5
-      );
-
-
-      oscillator.connect(gain);
-
-      gain.connect(masterGain);
-
-
-      oscillator.start(now);
-
-      oscillator.stop(
-        now + 5.7
-      );
-
-    });
-
-
-    currentChord++;
-
-
-    // Continue forever
-    musicTimer = setTimeout(
-      playChord,
-      5000
+    gain.gain.setValueAtTime(
+      0,
+      now
     );
+
+    gain.gain.linearRampToValueAtTime(
+      0.12,
+      now + 0.08
+    );
+
+
+    /*
+      Soft fade-out.
+    */
+
+    gain.gain.setValueAtTime(
+      0.12,
+      now + duration - 0.15
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      now + duration
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(masterGain);
+
+
+    oscillator.start(now);
+
+    oscillator.stop(
+      now + duration
+    );
+
+
+    /*
+      Play the next note.
+    */
+
+    setTimeout(
+      playNextNote,
+      duration * 1000
+    );
+  }
+
+
+  function playNextNote() {
+
+    if (!playing) {
+      return;
+    }
+
+
+    const current =
+      melody[noteIndex];
+
+
+    playNote(
+      current.note,
+      current.duration
+    );
+
+
+    noteIndex++;
+
+
+    /*
+      Restart the melody after
+      reaching the end.
+    */
+
+    if (noteIndex >= melody.length) {
+
+      noteIndex = 0;
+
+    }
   }
 
 
   async function startMusic() {
 
-    createMusic();
+    createAudio();
+
 
     if (
       audioContext.state === "suspended"
     ) {
+
       await audioContext.resume();
+
     }
 
-    playChord();
+
+    if (playing) {
+      return;
+    }
+
+
+    playing = true;
+
+    noteIndex = 0;
+
+    playNextNote();
   }
 
 
   /*
-    Try autoplay when the page loads.
+    Try to start automatically.
   */
 
   window.addEventListener(
@@ -158,19 +263,18 @@
 
   /*
     If the browser blocks autoplay,
-    start after the visitor's first interaction.
+    begin automatically after the first
+    interaction with the page.
   */
 
   const startAfterInteraction = () => {
 
-    if (
-      audioContext &&
-      audioContext.state === "running"
-    ) {
+    if (playing) {
       return;
     }
 
     startMusic();
+
   };
 
 
@@ -180,11 +284,13 @@
     { once: true }
   );
 
+
   document.addEventListener(
     "touchstart",
     startAfterInteraction,
     { once: true }
   );
+
 
   document.addEventListener(
     "keydown",
