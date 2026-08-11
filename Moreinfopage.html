@@ -10,7 +10,95 @@
   <link rel="icon" type="image/png" href="Screenshot 2026-07-12 at 10.23.17 PM.png" />
   <title>More Info Page</title>
 </head>
+<script>
+
+
+(() => {
+
+  const likeButton =
+    document.getElementById("website-like");
+
+  const likeCount =
+    document.getElementById("website-like-count");
+
+
+  let likes =
+    Number(localStorage.getItem("websiteLikes")) || 0;
+
+  let liked =
+    localStorage.getItem("websiteLiked") === "true";
+
+
+  function updateButton() {
+
+    likeCount.textContent = likes;
+
+
+    if (liked) {
+
+      likeButton.classList.add("liked");
+
+      likeButton.innerHTML =
+        `❤️ <span id="website-like-count">${likes}</span>`;
+
+    } else {
+
+      likeButton.classList.remove("liked");
+
+      likeButton.innerHTML =
+        `🤍 <span id="website-like-count">${likes}</span>`;
+
+    }
+
+  }
+
+
+  likeButton.addEventListener("click", () => {
+
+    if (liked) {
+
+      likes = Math.max(0, likes - 1);
+
+      liked = false;
+
+    } else {
+
+      likes++;
+
+      liked = true;
+
+    }
+
+
+    localStorage.setItem(
+      "websiteLikes",
+      likes
+    );
+
+    localStorage.setItem(
+      "websiteLiked",
+      liked
+    );
+
+
+    updateButton();
+
+  });
+
+
+  updateButton();
+
+})();
+</script>
 <body>
+  <!-- Floating Like Button -->
+<button
+  id="website-like"
+  type="button"
+  aria-label="Like this website"
+>
+  ❤️ <span id="website-like-count">0</span>
+</button>
   <script>
 
 
@@ -67,9 +155,7 @@
   ];
 
 
-  /*
-    Convert musical notes to frequencies.
-  */
+ 
 
   const frequencies = {
     C4: 261.63,
@@ -178,10 +264,7 @@
     );
 
 
-    /*
-      Play the next note.
-    */
-
+    
     setTimeout(
       playNextNote,
       duration * 1000
