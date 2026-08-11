@@ -11,6 +11,189 @@
   <title>More Info Page</title>
 </head>
 <body>
+  <script>
+/* =========================================
+   INVISIBLE AUTOMATIC ELEVATOR MUSIC
+========================================= */
+
+(() => {
+
+  let audioContext = null;
+  let masterGain = null;
+  let musicTimer = null;
+  let currentChord = 0;
+
+  /*
+    Calm elevator/lounge progression
+  */
+
+  const chords = [
+    [261.63, 329.63, 392.00, 493.88], // Cmaj7
+    [220.00, 261.63, 329.63, 392.00], // Am7
+    [293.66, 349.23, 440.00, 523.25], // Dm7
+    [196.00, 246.94, 293.66, 349.23]  // G7
+  ];
+
+
+  function createMusic() {
+
+    if (audioContext) {
+      return;
+    }
+
+    audioContext = new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
+
+    masterGain = audioContext.createGain();
+
+    // Quiet background volume
+    masterGain.gain.value = 0.06;
+
+    masterGain.connect(
+      audioContext.destination
+    );
+  }
+
+
+  function playChord() {
+
+    if (!audioContext) {
+      return;
+    }
+
+    const chord =
+      chords[currentChord % chords.length];
+
+    const now =
+      audioContext.currentTime;
+
+
+    chord.forEach((frequency) => {
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+
+      // Soft, smooth sound
+      oscillator.type = "sine";
+
+      oscillator.frequency.value =
+        frequency;
+
+
+      // Fade in
+      gain.gain.setValueAtTime(
+        0,
+        now
+      );
+
+      gain.gain.linearRampToValueAtTime(
+        0.10,
+        now + 0.8
+      );
+
+
+      // Fade out
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 5.5
+      );
+
+
+      oscillator.connect(gain);
+
+      gain.connect(masterGain);
+
+
+      oscillator.start(now);
+
+      oscillator.stop(
+        now + 5.7
+      );
+
+    });
+
+
+    currentChord++;
+
+
+    // Continue forever
+    musicTimer = setTimeout(
+      playChord,
+      5000
+    );
+  }
+
+
+  async function startMusic() {
+
+    createMusic();
+
+    if (
+      audioContext.state === "suspended"
+    ) {
+      await audioContext.resume();
+    }
+
+    playChord();
+  }
+
+
+  /*
+    Try autoplay when the page loads.
+  */
+
+  window.addEventListener(
+    "load",
+    () => {
+      startMusic();
+    }
+  );
+
+
+  /*
+    If the browser blocks autoplay,
+    start after the visitor's first interaction.
+  */
+
+  const startAfterInteraction = () => {
+
+    if (
+      audioContext &&
+      audioContext.state === "running"
+    ) {
+      return;
+    }
+
+    startMusic();
+  };
+
+
+  document.addEventListener(
+    "click",
+    startAfterInteraction,
+    { once: true }
+  );
+
+  document.addEventListener(
+    "touchstart",
+    startAfterInteraction,
+    { once: true }
+  );
+
+  document.addEventListener(
+    "keydown",
+    startAfterInteraction,
+    { once: true }
+  );
+
+})();
+</script>
   <main class="info-page">
     <h2>Hey, why did you click me?</h2>
   
