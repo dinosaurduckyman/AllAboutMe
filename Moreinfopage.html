@@ -22,14 +22,7 @@
   let noteIndex = 0;
 
 
-  /*
-    Ode to Joy melody
-    E D C D E E E
-    D D D
-    E G G
-    E D C D E E E
-    D D E D C
-  */
+  
 
   const melody = [
     { note: "E4", duration: 0.55 },
@@ -96,12 +89,9 @@
       audioContext.createGain();
 
 
-    /*
-      Quiet background volume.
-      Increase to 0.10 if you want it louder.
-    */
+    
 
-    masterGain.gain.value = 0.055;
+    masterGain.gain.value = 0.10;
 
 
     masterGain.connect(
@@ -134,10 +124,7 @@
       audioContext.currentTime;
 
 
-    /*
-      Soft fade-in.
-    */
-
+    
     gain.gain.setValueAtTime(
       0,
       now
@@ -149,9 +136,7 @@
     );
 
 
-    /*
-      Soft fade-out.
-    */
+    
 
     gain.gain.setValueAtTime(
       0.12,
@@ -204,10 +189,7 @@
     noteIndex++;
 
 
-    /*
-      Restart the melody after
-      reaching the end.
-    */
+    
 
     if (noteIndex >= melody.length) {
 
@@ -244,9 +226,7 @@
   }
 
 
-  /*
-    Try to start automatically.
-  */
+  
 
   window.addEventListener(
     "load",
@@ -256,11 +236,7 @@
   );
 
 
-  /*
-    If the browser blocks autoplay,
-    begin automatically after the first
-    interaction with the page.
-  */
+  
 
   const startAfterInteraction = () => {
 
@@ -312,13 +288,13 @@
  <div class="scroll-spacer" aria-hidden="true"></div>
      <div class="scroll-spacer" aria-hidden="true"></div>
 
-   <!-- Image gallery section: paste this where you want the gallery to appear -->
+   
 <section id="image-gallery" aria-labelledby="gallery-title">
   <h2 id="gallery-title">Photo Gallery</h2>
 
-  <!-- Thumbnails grid -->
+
   <div class="gallery-grid" role="list">
-    <!-- Replace these src values with your images (e.g., images/photo1.jpg) -->
+    
     <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
       <img src="DSC_0009.jpg" alt="Viraaj at Taj Mahal with Sunglasses on, acting like he is holding it">
     </button>
@@ -339,12 +315,12 @@
     </button>
   </div>
 
-  <!-- Link to cricket stats page -->
+ 
   <div style="margin-top:18px; text-align:center;">
     <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
   </div>
 
-  <!-- Lightbox modal -->
+  
   <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
     <button class="lightbox-close" aria-label="Close gallery">&times;</button>
     <button class="lightbox-prev" aria-label="Previous image">&#10094;</button>
@@ -356,10 +332,10 @@
   </div>
 
   <style>
-    /* Gallery grid */
+    
     .gallery-grid {
       display: grid;
-      /* larger thumbnails: increase minimum column width */
+      
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 12px;
       margin: 0;
@@ -377,7 +353,7 @@
     }
     .gallery-item img {
       width: 100%;
-      /* make thumbnails taller */
+      
       height: 260px;
       object-fit: cover;
       display: block;
@@ -395,7 +371,7 @@
       transform: scale(1.05);
     }
 
-    /* Lightbox */
+   
     .lightbox {
       position: fixed;
       inset: 0;
@@ -410,14 +386,14 @@
 
     .lightbox-content {
       max-width: 98%;
-      /* allow more vertical space for the image */
+    
       max-height: 95%;
       text-align: center;
       color: #fff;
     }
     .lightbox-content img {
       max-width: 100%;
-      /* allow the image to use more vertical space on large screens */
+     
       max-height: 90vh;
       border-radius: 6px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.6);
@@ -431,7 +407,7 @@
       opacity: 0.9;
     }
 
-    /* Controls */
+
     .lightbox-close,
     .lightbox-prev,
     .lightbox-next {
@@ -452,7 +428,7 @@
     .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
     .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
 
-    /* Accessibility focus styles */
+
     .gallery-item:focus,
     .lightbox-close:focus,
     .lightbox-prev:focus,
@@ -462,7 +438,7 @@
     }
 
     @media (max-width: 480px) {
-      /* smaller phones: still larger than before but responsive */
+      
       .gallery-item img { height: 180px; }
       .lightbox-prev, .lightbox-next { font-size: 1.6rem; }
     }
@@ -488,7 +464,7 @@
         lightboxCaption.textContent = img.alt || '';
         currentIndex = index;
         
-        // Apply rotation class only for index 4
+   
         if (index === 4) {
           lightboxImage.classList.add('rotated');
         } else {
@@ -496,7 +472,7 @@
         }
         
         lightbox.setAttribute('aria-hidden', 'false');
-        // trap focus by focusing close button
+        
         btnClose.focus();
       }
 
@@ -527,12 +503,12 @@
       btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
       btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
 
-      // Close when clicking outside content
+     
       lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) close();
       });
 
-      // Keyboard navigation
+  
       document.addEventListener('keydown', (e) => {
         if (lightbox.getAttribute('aria-hidden') === 'false') {
           if (e.key === 'Escape') close();
@@ -541,7 +517,7 @@
         }
       });
 
-      // Prevent scrolling while lightbox open
+ 
       const observer = new MutationObserver(() => {
         if (lightbox.getAttribute('aria-hidden') === 'false') {
           document.body.style.overflow = 'hidden';
