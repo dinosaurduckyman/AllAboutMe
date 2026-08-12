@@ -9,76 +9,6 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-
-
-
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
-}
-
-
-.info-page h1 {
-  margin: 0 0 45px;
-  text-align: center;
-  font-family: "Pinyon Script", cursive;
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  font-weight: 400;
-}
-
-
-.info-page h2 {
-  margin: 0 0 20px;
-  font-family: "Montserrat", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  line-height: 1.2;
-}
-
-
-.info-page p {
-  margin: 0 0 24px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: #333;
-}
-
-
-#image-gallery {
-  margin-top: 80px;
-}
-
-
-#image-gallery h2 {
-  margin-bottom: 28px;
-}
-
-
-@media (max-width: 600px) {
-  .info-page {
-    padding: 40px 18px 60px;
-  }
-
-  .info-page h1 {
-    margin-bottom: 35px;
-  }
-
-  .info-page h2 {
-    margin-bottom: 16px;
-  }
-
-  .info-page p {
-    font-size: 0.98rem;
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-
-  #image-gallery {
-    margin-top: 55px;
-  }
-}
-
 body > main,
 .info-page {
   display: flex;
@@ -108,6 +38,9 @@ a{
 }
 
 h1 {
+/* =========================================
+   FLOATING WEBSITE LIKE BUTTON
+========================================= */
 
 
 #website-like {
@@ -209,7 +142,7 @@ h1 {
   }
 
 }
-  
+
   font-family: 'Pinyon Script', cursive;
   font-size: 3rem;
   color: #bef3f8;
@@ -375,5 +308,3 @@ h2 {
   }
 
 }
-
-
