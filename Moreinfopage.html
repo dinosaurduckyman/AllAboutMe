@@ -11,6 +11,309 @@
   <link rel="icon" type="image/png" href="Screenshot 2026-07-12 at 10.23.17 PM.png" />
   <title>More About Viraaj Singh</title>
 </head>
+
+  <main class="info-page">
+    <main class="info-page">
+
+  <h1>More about Viraaj Singh</h1>
+
+  <div class="info-cards">
+
+    <!-- Contact Card -->
+    <section class="info-card contact-card">
+      <h2>Contact Me</h2>
+
+      <p>
+        Feel free to contact me whenever you like!
+      </p>
+
+      <div class="contact-details">
+        <p>
+          <strong>Email:</strong>
+          <a href="mailto:viraaj.babusingh@gmail.com">
+            viraaj.babusingh@gmail.com
+          </a>
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          <a href="tel:+13652282805">
+            (365) 228-2805
+          </a>
+        </p>
+      </div>
+    </section>
+
+
+    <!-- About Me Card -->
+    <section class="info-card about-card">
+      <h2>My Info</h2>
+
+      <p>
+        I love ice cream, momos, and pizza. I love playing cricket
+        as it helps with health. I also like studying because it's
+        important to get good grades.
+      </p>
+
+      <p>
+        My favorite anime is <strong>Blue Lock</strong>, followed by
+        <strong>Dragon Ball Super</strong>.
+      </p>
+    </section>
+
+  </div>
+
+
+  <!-- Gallery -->
+  <section id="image-gallery" aria-labelledby="gallery-title">
+
+    <h2 id="gallery-title">Photo Gallery</h2>
+     <div class="gallery-grid" role="list">
+    
+    <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
+      <img src="DSC_0009.jpg" alt="Viraaj at Taj Mahal with Sunglasses on, acting like he is holding it">
+    </button>
+    <button class="gallery-item" data-index="1" aria-label="Open photo 2" role="listitem">
+      <img src="PHOTO-2026-02-15-00-17-25.jpg" alt="Viraaj winning a bronze medal at the qualifier">
+    </button>
+    <button class="gallery-item" data-index="2" aria-label="Open photo 3" role="listitem">
+      <img src="PHOTO-2026-02-15-00-17-25 (1).jpg" alt="Viraaj at the local CYCC qualifier">
+    </button>
+    <button class="gallery-item" data-index="3" aria-label="Open photo 4" role="listitem">
+      <img src="PHOTO-2026-06-08-13-24-37 (1).jpg" alt="Viraaj winning 2nd at Halton Track and Field">
+    </button>
+    <button class="gallery-item" data-index="4" aria-label="Open photo 5" role="listitem">
+      <img class="rotated" src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
+    </button>
+    <button class="gallery-item" data-index="5" aria-label="Open photo 6" role="listitem">
+      <img src="image.png" alt="Viraaj holding a Trophy he had won in chess with his cricket jersey on.">
+    </button>
+  </div>
+    
+  </section>
+
+</main>
+   
+
+ 
+
+
+  
+
+ 
+  <div style="margin-top:18px; text-align:center;">
+    <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
+  </div>
+
+  
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="lightbox-close" aria-label="Close gallery">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="">
+      <p id="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-next" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <style>
+    
+    .gallery-grid {
+      display: grid;
+      
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .gallery-item {
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+    .gallery-item img {
+      width: 100%;
+      
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform .25s ease;
+    }
+    .gallery-item img.rotated {
+      transform: rotate(90deg);
+    }
+    .gallery-item:hover img.rotated,
+    .gallery-item:focus img.rotated {
+      transform: rotate(90deg) scale(1.05);
+    }
+    .gallery-item:hover img:not(.rotated),
+    .gallery-item:focus img:not(.rotated) {
+      transform: scale(1.05);
+    }
+
+   
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      padding: 20px;
+    }
+    .lightbox[aria-hidden="false"] { display: flex; }
+
+    .lightbox-content {
+      max-width: 98%;
+    
+      max-height: 95%;
+      text-align: center;
+      color: #fff;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+     
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox-content img.rotated {
+      transform: rotate(90deg);
+    }
+    #lightbox-caption {
+      margin-top: 8px;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      font-size: 2rem;
+      line-height: 1;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .lightbox-close {
+      top: 16px;
+      right: 18px;
+      font-size: 2.4rem;
+    }
+    .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
+    .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
+
+
+    .gallery-item:focus,
+    .lightbox-close:focus,
+    .lightbox-prev:focus,
+    .lightbox-next:focus {
+      outline: 3px solid #ffd166;
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 480px) {
+      
+      .gallery-item img { height: 180px; }
+      .lightbox-prev, .lightbox-next { font-size: 1.6rem; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const items = Array.from(document.querySelectorAll('#image-gallery .gallery-item'));
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const btnClose = document.querySelector('.lightbox-close');
+      const btnPrev = document.querySelector('.lightbox-prev');
+      const btnNext = document.querySelector('.lightbox-next');
+      let currentIndex = 0;
+
+      if (!items.length) return;
+
+      function open(index) {
+        const img = items[index].querySelector('img');
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt || '';
+        lightboxCaption.textContent = img.alt || '';
+        currentIndex = index;
+        
+   
+        if (index === 4) {
+          lightboxImage.classList.add('rotated');
+        } else {
+          lightboxImage.classList.remove('rotated');
+        }
+        
+        lightbox.setAttribute('aria-hidden', 'false');
+        
+        btnClose.focus();
+      }
+
+      function close() {
+        lightbox.setAttribute('aria-hidden', 'true');
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        open(currentIndex);
+      }
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        open(currentIndex);
+      }
+
+      items.forEach((btn, i) => {
+        btn.addEventListener('click', () => open(i));
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(i);
+          }
+        });
+      });
+
+      btnClose.addEventListener('click', close);
+      btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+      btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+
+     
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) close();
+      });
+
+  
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.getAttribute('aria-hidden') === 'false') {
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowRight') showNext();
+          if (e.key === 'ArrowLeft') showPrev();
+        }
+      });
+
+ 
+      const observer = new MutationObserver(() => {
+        if (lightbox.getAttribute('aria-hidden') === 'false') {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      });
+      observer.observe(lightbox, { attributes: true, attributeFilter: ['aria-hidden'] });
+    })();
+  </script>
+</section>
 <script>
 
 
@@ -271,256 +574,6 @@
 
 })();
 </script>
-  <main class="info-page">
-    <h1>More about Viraaj Singh</h1>
-
-    <h2>My Info</h2>
-    <p>Feel free to conatact me when you like, my email is viraaj.babusingh@gmail.com and my phone number is (365) 228-2805</p>
-    <p>I love ice cream, momos, and pizza. I love playing cricket as it helps with health, I also like studying as it's important to get good grades. My favorite anime is Blue Lock, followed by Dragon Ball Super.</p>
- 
-
-   
-<section id="image-gallery" aria-labelledby="gallery-title">
-  <h2 id="gallery-title">Photo Gallery</h2>
-
-
-  <div class="gallery-grid" role="list">
-    
-    <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
-      <img src="DSC_0009.jpg" alt="Viraaj at Taj Mahal with Sunglasses on, acting like he is holding it">
-    </button>
-    <button class="gallery-item" data-index="1" aria-label="Open photo 2" role="listitem">
-      <img src="PHOTO-2026-02-15-00-17-25.jpg" alt="Viraaj winning a bronze medal at the qualifier">
-    </button>
-    <button class="gallery-item" data-index="2" aria-label="Open photo 3" role="listitem">
-      <img src="PHOTO-2026-02-15-00-17-25 (1).jpg" alt="Viraaj at the local CYCC qualifier">
-    </button>
-    <button class="gallery-item" data-index="3" aria-label="Open photo 4" role="listitem">
-      <img src="PHOTO-2026-06-08-13-24-37 (1).jpg" alt="Viraaj winning 2nd at Halton Track and Field">
-    </button>
-    <button class="gallery-item" data-index="4" aria-label="Open photo 5" role="listitem">
-      <img class="rotated" src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
-    </button>
-    <button class="gallery-item" data-index="5" aria-label="Open photo 6" role="listitem">
-      <img src="image.png" alt="Viraaj holding a Trophy he had won in chess with his cricket jersey on.">
-    </button>
-  </div>
-
- 
-  <div style="margin-top:18px; text-align:center;">
-    <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
-  </div>
-
-  
-  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
-    <button class="lightbox-close" aria-label="Close gallery">&times;</button>
-    <button class="lightbox-prev" aria-label="Previous image">&#10094;</button>
-    <div class="lightbox-content">
-      <img id="lightbox-image" src="" alt="">
-      <p id="lightbox-caption"></p>
-    </div>
-    <button class="lightbox-next" aria-label="Next image">&#10095;</button>
-  </div>
-
-  <style>
-    
-    .gallery-grid {
-      display: grid;
-      
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .gallery-item {
-      padding: 0;
-      border: 0;
-      background: none;
-      cursor: pointer;
-      display: block;
-      overflow: hidden;
-      border-radius: 6px;
-    }
-    .gallery-item img {
-      width: 100%;
-      
-      height: 260px;
-      object-fit: cover;
-      display: block;
-      transition: transform .25s ease;
-    }
-    .gallery-item img.rotated {
-      transform: rotate(90deg);
-    }
-    .gallery-item:hover img.rotated,
-    .gallery-item:focus img.rotated {
-      transform: rotate(90deg) scale(1.05);
-    }
-    .gallery-item:hover img:not(.rotated),
-    .gallery-item:focus img:not(.rotated) {
-      transform: scale(1.05);
-    }
-
-   
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.85);
-      z-index: 9999;
-      padding: 20px;
-    }
-    .lightbox[aria-hidden="false"] { display: flex; }
-
-    .lightbox-content {
-      max-width: 98%;
-    
-      max-height: 95%;
-      text-align: center;
-      color: #fff;
-    }
-    .lightbox-content img {
-      max-width: 100%;
-     
-      max-height: 90vh;
-      border-radius: 6px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    }
-    .lightbox-content img.rotated {
-      transform: rotate(90deg);
-    }
-    #lightbox-caption {
-      margin-top: 8px;
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-
-    .lightbox-close,
-    .lightbox-prev,
-    .lightbox-next {
-      position: absolute;
-      background: transparent;
-      color: #fff;
-      border: 0;
-      font-size: 2rem;
-      line-height: 1;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-    .lightbox-close {
-      top: 16px;
-      right: 18px;
-      font-size: 2.4rem;
-    }
-    .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
-    .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
-
-
-    .gallery-item:focus,
-    .lightbox-close:focus,
-    .lightbox-prev:focus,
-    .lightbox-next:focus {
-      outline: 3px solid #ffd166;
-      outline-offset: 3px;
-    }
-
-    @media (max-width: 480px) {
-      
-      .gallery-item img { height: 180px; }
-      .lightbox-prev, .lightbox-next { font-size: 1.6rem; }
-    }
-  </style>
-
-  <script>
-    (function() {
-      const items = Array.from(document.querySelectorAll('#image-gallery .gallery-item'));
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      const btnClose = document.querySelector('.lightbox-close');
-      const btnPrev = document.querySelector('.lightbox-prev');
-      const btnNext = document.querySelector('.lightbox-next');
-      let currentIndex = 0;
-
-      if (!items.length) return;
-
-      function open(index) {
-        const img = items[index].querySelector('img');
-        lightboxImage.src = img.src;
-        lightboxImage.alt = img.alt || '';
-        lightboxCaption.textContent = img.alt || '';
-        currentIndex = index;
-        
-   
-        if (index === 4) {
-          lightboxImage.classList.add('rotated');
-        } else {
-          lightboxImage.classList.remove('rotated');
-        }
-        
-        lightbox.setAttribute('aria-hidden', 'false');
-        
-        btnClose.focus();
-      }
-
-      function close() {
-        lightbox.setAttribute('aria-hidden', 'true');
-      }
-
-      function showNext() {
-        currentIndex = (currentIndex + 1) % items.length;
-        open(currentIndex);
-      }
-      function showPrev() {
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        open(currentIndex);
-      }
-
-      items.forEach((btn, i) => {
-        btn.addEventListener('click', () => open(i));
-        btn.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            open(i);
-          }
-        });
-      });
-
-      btnClose.addEventListener('click', close);
-      btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
-      btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-
-     
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) close();
-      });
-
-  
-      document.addEventListener('keydown', (e) => {
-        if (lightbox.getAttribute('aria-hidden') === 'false') {
-          if (e.key === 'Escape') close();
-          if (e.key === 'ArrowRight') showNext();
-          if (e.key === 'ArrowLeft') showPrev();
-        }
-      });
-
- 
-      const observer = new MutationObserver(() => {
-        if (lightbox.getAttribute('aria-hidden') === 'false') {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
-      });
-      observer.observe(lightbox, { attributes: true, attributeFilter: ['aria-hidden'] });
-    })();
-  </script>
-</section>
-
     
 
 
