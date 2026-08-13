@@ -38,9 +38,7 @@ a{
 }
 
 h1 {
-/* =========================================
-   FLOATING WEBSITE LIKE BUTTON
-========================================= */
+
 
 
 #website-like {
@@ -82,7 +80,7 @@ h1 {
 }
 
 
-/* Hover */
+
 
 #website-like:hover {
   transform: scale(1.08);
@@ -91,14 +89,13 @@ h1 {
 }
 
 
-/* Click */
+
 
 #website-like:active {
   transform: scale(0.9);
 }
 
 
-/* Liked */
 
 #website-like.liked {
   background: #ef4444;
@@ -109,7 +106,7 @@ h1 {
 }
 
 
-/* Heart animation */
+
 
 @keyframes likePop {
 
@@ -128,7 +125,7 @@ h1 {
 }
 
 
-/* Mobile */
+
 
 @media (max-width: 600px) {
 
@@ -205,9 +202,7 @@ h2 {
   margin: 0 auto 1.5rem;
   border: 4px solid rgba(190, 243, 248, 0.75);
 }
-/* =========================================
-   FLOATING WEBSITE LIKE BUTTON
-========================================= */
+
 
 #website-like {
   position: fixed;
@@ -248,7 +243,6 @@ h2 {
 }
 
 
-/* Hover */
 
 #website-like:hover {
   transform: scale(1.08);
@@ -257,14 +251,14 @@ h2 {
 }
 
 
-/* Click */
+
 
 #website-like:active {
   transform: scale(0.9);
 }
 
 
-/* Liked */
+
 
 #website-like.liked {
   background: #ef4444;
@@ -275,7 +269,7 @@ h2 {
 }
 
 
-/* Heart animation */
+
 
 @keyframes likePop {
 
@@ -294,7 +288,7 @@ h2 {
 }
 
 
-/* Mobile */
+
 
 @media (max-width: 600px) {
 
@@ -342,6 +336,7 @@ element.style {
     padding-left: calc(var(--bs-gutter-x) * .5);
     margin-right: auto;
     margin-left: auto;
+    
 }
 *, ::after, ::before {
     box-sizing: border-box;
