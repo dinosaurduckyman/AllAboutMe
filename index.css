@@ -16,13 +16,14 @@ body > main,
   justify-content: center;
 }
 
-a {
+a:link {
   color: #f8f8f8;
 }
 
 a:hover {
   color: #bef3f8;
 }
+
 
 main {
   width: min(760px, calc(100% - 2rem));
@@ -39,11 +40,7 @@ main {
   height: 80vh;
 }
 
-a{
-  color: #f8f8f8
-  text-decoration-line: underline;
-  text-decoration-style: solid;
-}
+
 
 h1 {
 
