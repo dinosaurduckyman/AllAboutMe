@@ -16,6 +16,14 @@ body > main,
   justify-content: center;
 }
 
+a {
+  color: #f8f8f8;
+}
+
+a:hover {
+  color: #bef3f8;
+}
+
 main {
   width: min(760px, calc(100% - 2rem));
   padding: 2rem;
