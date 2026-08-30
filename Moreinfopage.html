@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Ensure index.css is saved in the EXACT SAME folder as this file -->
   <link rel="stylesheet" href="index.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
   <link rel="icon" type="image/png" href="FaviconViraaj.png">
-  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pinyon+Script&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="Screenshot 2026-07-12 at 10.23.17 PM.png" />
@@ -78,12 +77,61 @@
     playNextNote();
   }
 
-  window.addEventListener("load", () => { startMusic(); });
+  window.addEventListener("load", () => { 
+    startMusic(); 
+    setupLightbox();
+  });
+
   const startAfterInteraction = () => { if (playing) return; startMusic(); };
 
   document.addEventListener("click", startAfterInteraction, { once: true });
   document.addEventListener("touchstart", startAfterInteraction, { once: true });
   document.addEventListener("keydown", startAfterInteraction, { once: true });
+
+ 
+  function setupLightbox() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightboxCaption.textContent = img.alt;
+        
+  
+        if (img.classList.contains('rotated')) {
+          lightboxImg.classList.add('rotated');
+        } else {
+          lightboxImg.classList.remove('rotated');
+        }
+
+        lightbox.classList.add('active');
+        lightbox.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden', 'true');
+    }
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  }
 })();
 </script>
 <body>
@@ -92,7 +140,7 @@
 
     <h2>My Info</h2>
     
-    <p>I love ice cream, momos, and pizza. I love playing cricket as it helps with health, I also like studying as it's important to get good grades. My favorite anime is <a href="https://www.google.com/search?q=blue+lock">Blue Lock</a>, followed by <a href="https://www.google.com/search?q=dragon+ball+super">Dragon Ball Super</a>.</p>
+    <p>I love ice cream, momos, and pizza. I love playing cricket as it helps with health, I also like studying as it's important to get good grades. My favorite anime is <a href="https://google.com">Blue Lock</a>, followed by <a href="https://google.com">Dragon Ball Super</a>.</p>
     
     <div class="scroll-spacer" aria-hidden="true"></div>
     <div class="scroll-spacer" aria-hidden="true"></div>
@@ -128,12 +176,16 @@
       </div>
 
       <div style="margin-top:18px; text-align:center;">
-        <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
+        <a href="https://cricclubs.com" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
       </div>
 
     
       <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
-        <button class="lightbox-close" aria-label="Close Lightbox">X</button>
+        <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <div class="lightbox-content">
+          <img id="lightbox-img" src="" alt="">
+          <div id="lightbox-caption" class="lightbox-caption"></div>
+        </div>
       </div>
     </section>
   </main>
