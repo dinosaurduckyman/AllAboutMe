@@ -61,6 +61,12 @@ h2 {
   font-size: 2rem;
   color: #bef3f8;
 }
+h1 {
+  font-family: 'Imperial Script', cursive;
+  font-size: 2rem;
+  color: #bef3f8;
+}
+
 
 .info-button {
   display: inline-flex;
