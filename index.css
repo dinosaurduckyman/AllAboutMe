@@ -16,8 +16,9 @@ body > main,
   justify-content: center;
 }
 
-a:link {
+a:link, a:visited {
   color: #f8f8f8;
+  text-decoration: underline;
 }
 
 a:hover {
@@ -59,70 +60,43 @@ h2 {
   color: #bef3f8;
 }
 
-.info-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
-  padding: 0.9rem 1.6rem;
-  background: linear-gradient(135deg, #bef3f8, #8ad9e2);
-  color: #10203b;
-  text-decoration: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.info-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
-}
-
-.info-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
-}
-
-.info-button:focus-visible {
-  outline: 3px solid #f8f8f8;
-  outline-offset: 3px;
-}
-
-.profile-pic {
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 1.5rem;
-  border: 4px solid rgba(190, 243, 248, 0.75);
+/* New CSS to make your photos layout in a clean grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .gallery-item {
   background-color: transparent;
   border-radius: 12px;       
   overflow: hidden;          
-  border: 1px solid #e0e0e0; 
+  border: 1px solid rgba(255,255,255,0.2); 
   padding: 0;               
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
   transition: transform 0.2s ease, box-shadow 0.2s ease; 
 }
 
 .gallery-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
+  height: 150px;
   object-fit: cover; 
   display: block;
 }
 
+/* Support for your rotated class */
+.rotated {
+  transform: rotate(90deg);
+}
+
+/* Basic styling for your lightbox wrapper */
+.lightbox {
+  display: none; 
+}
