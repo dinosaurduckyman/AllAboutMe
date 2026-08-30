@@ -60,7 +60,6 @@ h2 {
   color: #bef3f8;
 }
 
-
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -91,12 +90,83 @@ h2 {
   display: block;
 }
 
-
 .rotated {
   transform: rotate(90deg);
 }
 
-
+/* 🌟 FULL LIGHTBOX ANIMATION LAYER SYSTEM */
 .lightbox {
-  display: none; 
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(16, 32, 59, 0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
+.lightbox.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.lightbox-content img.rotated {
+  transform: rotate(90deg);
+  max-height: 50vh; /* Reduced height constraint when image is sideways */
+}
+
+.lightbox-caption {
+  margin-top: 15px;
+  color: #bef3f8;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  background: none;
+  border: none;
+  color: #bef3f8;
+  font-size: 2.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  line-height: 1;
+  z-index: 1010;
+}
+
+.lightbox-close:hover {
+  color: #f8f8f8;
+  transform: scale(1.1);
+}
+
