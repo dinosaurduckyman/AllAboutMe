@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Ensure index.css is saved in the EXACT SAME folder as this file -->
   <link rel="stylesheet" href="index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,531 +13,129 @@
   <title>More About Viraaj Singh</title>
 </head>
 <script>
-
-
 (() => {
-
   let audioContext = null;
   let masterGain = null;
   let playing = false;
   let noteIndex = 0;
 
-
-
-
   const melody = [
-    { note: "E4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-    { note: "C4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-
-    { note: "E4", duration: 0.55 },
-    { note: "E4", duration: 0.55 },
-    { note: "E4", duration: 1.1 },
-
-    { note: "D4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-    { note: "D4", duration: 1.1 },
-
-    { note: "E4", duration: 0.55 },
-    { note: "G4", duration: 0.55 },
-    { note: "G4", duration: 1.1 },
-
-    { note: "E4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-    { note: "C4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-
-    { note: "E4", duration: 0.55 },
-    { note: "E4", duration: 0.55 },
-    { note: "E4", duration: 1.1 },
-
-    { note: "D4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-    { note: "E4", duration: 0.55 },
-    { note: "D4", duration: 0.55 },
-
+    { note: "E4", duration: 0.55 }, { note: "D4", duration: 0.55 }, { note: "C4", duration: 0.55 }, { note: "D4", duration: 0.55 },
+    { note: "E4", duration: 0.55 }, { note: "E4", duration: 0.55 }, { note: "E4", duration: 1.1 },
+    { note: "D4", duration: 0.55 }, { note: "D4", duration: 0.55 }, { note: "D4", duration: 1.1 },
+    { note: "E4", duration: 0.55 }, { note: "G4", duration: 0.55 }, { note: "G4", duration: 1.1 },
+    { note: "E4", duration: 0.55 }, { note: "D4", duration: 0.55 }, { note: "C4", duration: 0.55 }, { note: "D4", duration: 0.55 },
+    { note: "E4", duration: 0.55 }, { note: "E4", duration: 0.55 }, { note: "E4", duration: 1.1 },
+    { note: "D4", duration: 0.55 }, { note: "D4", duration: 0.55 }, { note: "E4", duration: 0.55 }, { note: "D4", duration: 0.55 },
     { note: "C4", duration: 1.5 }
   ];
 
-
-
-
-  const frequencies = {
-    C4: 261.63,
-    D4: 293.66,
-    E4: 329.63,
-    F4: 349.23,
-    G4: 392.00,
-    A4: 440.00,
-    B4: 493.88
-  };
-
+  const frequencies = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88 };
 
   function createAudio() {
-
-    if (audioContext) {
-      return;
-    }
-
-    audioContext = new (
-      window.AudioContext ||
-      window.webkitAudioContext
-    )();
-
-
-    masterGain =
-      audioContext.createGain();
-
-
-
-
+    if (audioContext) return;
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioContext.createGain();
     masterGain.gain.value = 0.10;
-
-
-    masterGain.connect(
-      audioContext.destination
-    );
+    masterGain.connect(audioContext.destination);
   }
-
 
   function playNote(note, duration) {
-
-    if (!audioContext || !playing) {
-      return;
-    }
-
-
-    const oscillator =
-      audioContext.createOscillator();
-
-    const gain =
-      audioContext.createGain();
-
-
+    if (!audioContext || !playing) return;
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
     oscillator.type = "sine";
+    oscillator.frequency.value = frequencies[note];
+    const now = audioContext.currentTime;
 
-    oscillator.frequency.value =
-      frequencies[note];
-
-
-    const now =
-      audioContext.currentTime;
-
-
-
-    gain.gain.setValueAtTime(
-      0,
-      now
-    );
-
-    gain.gain.linearRampToValueAtTime(
-      0.12,
-      now + 0.08
-    );
-
-
-
-
-    gain.gain.setValueAtTime(
-      0.12,
-      now + duration - 0.15
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      now + duration
-    );
-
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.12, now + 0.08);
+    gain.gain.setValueAtTime(0.12, now + duration - 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
     oscillator.connect(gain);
-
     gain.connect(masterGain);
-
-
     oscillator.start(now);
+    oscillator.stop(now + duration);
 
-    oscillator.stop(
-      now + duration
-    );
-
-
-
-    setTimeout(
-      playNextNote,
-      duration * 1000
-    );
+    setTimeout(playNextNote, duration * 1000);
   }
-
 
   function playNextNote() {
-
-    if (!playing) {
-      return;
-    }
-
-
-    const current =
-      melody[noteIndex];
-
-
-    playNote(
-      current.note,
-      current.duration
-    );
-
-
+    if (!playing) return;
+    const current = melody[noteIndex];
+    playNote(current.note, current.duration);
     noteIndex++;
-
-
-
-
-    if (noteIndex >= melody.length) {
-
-      noteIndex = 0;
-
-    }
+    if (noteIndex >= melody.length) { noteIndex = 0; }
   }
 
-
   async function startMusic() {
-
     createAudio();
-
-
-    if (
-      audioContext.state === "suspended"
-    ) {
-
-      await audioContext.resume();
-
-    }
-
-
-    if (playing) {
-      return;
-    }
-
-
+    if (audioContext.state === "suspended") { await audioContext.resume(); }
+    if (playing) return;
     playing = true;
-
     noteIndex = 0;
-
     playNextNote();
   }
 
+  window.addEventListener("load", () => { startMusic(); });
+  const startAfterInteraction = () => { if (playing) return; startMusic(); };
 
-
-
-  window.addEventListener(
-    "load",
-    () => {
-      startMusic();
-    }
-  );
-
-
-
-
-  const startAfterInteraction = () => {
-
-    if (playing) {
-      return;
-    }
-
-    startMusic();
-
-  };
-
-
-  document.addEventListener(
-    "click",
-    startAfterInteraction,
-    { once: true }
-  );
-
-
-  document.addEventListener(
-    "touchstart",
-    startAfterInteraction,
-    { once: true }
-  );
-
-
-  document.addEventListener(
-    "keydown",
-    startAfterInteraction,
-    { once: true }
-  );
-
+  document.addEventListener("click", startAfterInteraction, { once: true });
+  document.addEventListener("touchstart", startAfterInteraction, { once: true });
+  document.addEventListener("keydown", startAfterInteraction, { once: true });
 })();
 </script>
-  <body>
+<body>
   <main class="info-page">
     <h1>More about Viraaj Singh</h1>
 
     <h2>My Info</h2>
     
-    <p>I love ice cream, momos, and pizza. I love playing cricket as it helps with health, I also like studying as it's important to get good grades. My favorite anime is <a src="https://www.google.com/search?q=blue+lock&rlz=1C5CHFA_enCA953CA953&oq=Blue+Lock&gs_lcrp=EgZjaHJvbWUqBwgAEAAYjwIyBwgAEAAYjwIyCggBEC4YsQMYgAQyCggCEAAYsQMYgAQyBggDEEUYOTINCAQQABiDARixAxiABDIHCAUQABiABDINCAYQABiDARixAxiABDIKCAcQABixAxiABDIKCAgQABixAxiABDIKCAkQABixAxiABNIBCDQzNThqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8">Blue Lock</a>, followed by <a src="https://www.google.com/search?q=dragon+ball+super&sca_esv=96dc3f75590fe37d&rlz=1C5CHFA_enCA953CA953&sxsrf=APpeQnuwIlB5mOivR_PudY7NpejsQNcm_A%3A1786838949250&ei=pf-AaujwDumjj94PiIO82AY&biw=1680&bih=962&gs_ssp=eJzj4tbP1TcwNDapqCwoMWD0EkwpSkzPz1NISszJUSguLUgtAgCg5wqP&oq=Dragon+B&gs_lp=Egxnd3Mtd2l6LXNlcnAiCERyYWdvbiBCKgIIATINEC4YgAQYigUYQxixAzINEC4YgAQYigUYQxixAzINEC4YgAQYigUYQxixAzIQEC4YgAQYigUYQxixAxiDATINEC4YgAQYigUYQxixAzIKEAAYgAQYigUYQzIKEC4YgAQYigUYQzIKEAAYgAQYigUYQzIKEC4YgAQYigUYQzIKEC4YQxiABBiKBTIcEC4YgAQYigUYQxixAxiXBRjcBBjeBBjgBNgBAUiFHFDOA1jrD3ABeAGQAQCYAYoBoAH3BqoBAzEuN7gBAcgBAPgBAZgCCqACjhOoAhLCAgcQIxjqAhgnwgINECMYyQIY8AUY6gIYJ8ICFhAAGIAEGIoFGEMY5wYY6gIYtALYAQHCAhkQLhiABBiKBRhDGOcGGMgDGOoCGLQC2AEBwgIEECMYJ8ICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgINEAAYgAQYigUYQxixA8ICGRAuGEMYgAQYigUYlwUY3AQY3gQY4ATYAQGYAwnxBfHy783ArzPlugYGCAEQARgBkgcHMi43LjctMaAHlq8BsgcDMS43uAerB8IHBzAuMS44LjHIByyACAE&sclient=gws-wiz-serp">Dragon Ball Super</a>.</p>
- <div class="scroll-spacer" aria-hidden="true"></div>
-     <div class="scroll-spacer" aria-hidden="true"></div>
- 
-
-
-<section id="image-gallery" aria-labelledby="gallery-title">
-  <h2 id="gallery-title">Photo Gallery</h2>
-
-
-  <div class="gallery-grid" role="list">
-
-    <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
-      <img src="DSC_0009.jpg" alt="Viraaj at Taj Mahal with Sunglasses on, acting like he is holding it">
-    </button>
-    <button class="gallery-item" data-index="1" aria-label="Open photo 2" role="listitem">
-      <img src="PHOTO-2026-02-15-00-17-25.jpg" alt="Viraaj winning a bronze medal at the qualifier">
-    </button>
-    <button class="gallery-item" data-index="2" aria-label="Open photo 3" role="listitem">
-      <img src="PHOTO-2026-02-15-00-17-25 (1).jpg" alt="Viraaj at the local CYCC qualifier">
-    </button>
-    <button class="gallery-item" data-index="3" aria-label="Open photo 4" role="listitem">
-      <img src="PHOTO-2026-06-08-13-24-37 (1).jpg" alt="Viraaj winning 2nd at Halton Track and Field">
-    </button>
-    <button class="gallery-item" data-index="4" aria-label="Open photo 5" role="listitem">
-      <img class="rotated" src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
-    </button>
-    <button class="gallery-item" data-index="5" aria-label="Open photo 6" role="listitem">
-      <img src="image.png" alt="Viraaj holding a Trophy he had won in chess with his cricket jersey on.">
-    </button>
-    <button class="gallery-item" data-index="6" aria-label="Open photo 7" role="listitem">
-      <img src="ce35acd4-3544-47e4-ba89-65aa5ca9aaba.jpg" alt="Viraaj celebrating Diwali.">
-    </button>
-    <button class="gallery-item" data-index="7" aria-label="Open photo 8" role="listitem">
-      <img src="bf527903-a547-477e-b143-bc543e38632f.jpg" alt="Viraaj performing Karate.">
-    </button>
+    <p>I love ice cream, momos, and pizza. I love playing cricket as it helps with health, I also like studying as it's important to get good grades. My favorite anime is <a href="https://www.google.com/search?q=blue+lock">Blue Lock</a>, followed by <a href="https://www.google.com/search?q=dragon+ball+super">Dragon Ball Super</a>.</p>
     
-  </div>
+    <div class="scroll-spacer" aria-hidden="true"></div>
+    <div class="scroll-spacer" aria-hidden="true"></div>
 
+    <section id="image-gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title">Photo Gallery</h2>
 
-  <div style="margin-top:18px; text-align:center;">
-    <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
-  </div>
+      <div class="gallery-grid" role="list">
+        <button class="gallery-item" data-index="0" aria-label="Open photo 1" role="listitem">
+          <img src="DSC_0009.jpg" alt="Viraaj at Taj Mahal with Sunglasses on, acting like he is holding it">
+        </button>
+        <button class="gallery-item" data-index="1" aria-label="Open photo 2" role="listitem">
+          <img src="PHOTO-2026-02-15-00-17-25.jpg" alt="Viraaj winning a bronze medal at the qualifier">
+        </button>
+        <button class="gallery-item" data-index="2" aria-label="Open photo 3" role="listitem">
+          <img src="PHOTO-2026-02-15-00-17-25 (1).jpg" alt="Viraaj at the local CYCC qualifier">
+        </button>
+        <button class="gallery-item" data-index="3" aria-label="Open photo 4" role="listitem">
+          <img src="PHOTO-2026-06-08-13-24-37 (1).jpg" alt="Viraaj winning 2nd at Halton Track and Field">
+        </button>
+        <button class="gallery-item" data-index="4" aria-label="Open photo 5" role="listitem">
+          <img class="rotated" src="unnamed.jpg" alt="Viraaj at the Taj Mahal with his little brother Yuvaan.">
+        </button>
+        <button class="gallery-item" data-index="5" aria-label="Open photo 6" role="listitem">
+          <img src="image.png" alt="Viraaj holding a Trophy he had won in chess with his cricket jersey on.">
+        </button>
+        <button class="gallery-item" data-index="6" aria-label="Open photo 7" role="listitem">
+          <img src="ce35acd4-3544-47e4-ba89-65aa5ca9aaba.jpg" alt="Viraaj celebrating Diwali.">
+        </button>
+        <button class="gallery-item" data-index="7" aria-label="Open photo 8" role="listitem">
+          <img src="bf527903-a547-477e-b143-bc543e38632f.jpg" alt="Viraaj performing Karate.">
+        </button>
+      </div>
 
+      <div style="margin-top:18px; text-align:center;">
+        <a href="https://cricclubs.com/TDCA/viewPlayer.do?playerId=5172176&clubId=1809" class="btn" style="display:inline-block; background:#1f8ef1; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none;">View cricket stats</a>
+      </div>
 
-  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
-    <button class="lightbox-close" aria-label="Close gallery">&times;</button>
-    <button class="lightbox-prev" aria-label="Previous image">&#10094;</button>
-    <div class="lightbox-content">
-      <img id="lightbox-image" src="" alt="">
-      <p id="lightbox-caption"></p>
-    </div>
-    <button class="lightbox-next" aria-label="Next image">&#10095;</button>
-  </div>
-
-  <style>
-
-    .gallery-grid {
-      display: grid;
-
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .gallery-item {
-      padding: 0;
-      border: 0;
-      background: none;
-      cursor: pointer;
-      display: block;
-      overflow: hidden;
-      border-radius: 6px;
-    }
-    .gallery-item img {
-      width: 100%;
-
-      height: 260px;
-      object-fit: cover;
-      display: block;
-      transition: transform .25s ease;
-    }
-    .gallery-item img.rotated {
-      transform: rotate(90deg);
-    }
-    .gallery-item:hover img.rotated,
-    .gallery-item:focus img.rotated {
-      transform: rotate(90deg) scale(1.05);
-    }
-    .gallery-item:hover img:not(.rotated),
-    .gallery-item:focus img:not(.rotated) {
-      transform: scale(1.05);
-    }
-
-
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.85);
-      z-index: 9999;
-      padding: 20px;
-    }
-    .lightbox[aria-hidden="false"] { display: flex; }
-
-    .lightbox-content {
-      max-width: 98%;
-
-      max-height: 95%;
-      text-align: center;
-      color: #fff;
-    }
-    .lightbox-content img {
-      max-width: 100%;
-
-      max-height: 90vh;
-      border-radius: 6px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    }
-    .lightbox-content img.rotated {
-      transform: rotate(90deg);
-    }
-    #lightbox-caption {
-      margin-top: 8px;
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-
-    .lightbox-close,
-    .lightbox-prev,
-    .lightbox-next {
-      position: absolute;
-      background: transparent;
-      color: #fff;
-      border: 0;
-      font-size: 2rem;
-      line-height: 1;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-    .lightbox-close {
-      top: 16px;
-      right: 18px;
-      font-size: 2.4rem;
-    }
-    .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
-    .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
-
-
-    .gallery-item:focus,
-    .lightbox-close:focus,
-    .lightbox-prev:focus,
-    .lightbox-next:focus {
-      outline: 3px solid #ffd166;
-      outline-offset: 3px;
-    }
-
-    @media (max-width: 480px) {
-
-      .gallery-item img { height: 180px; }
-      .lightbox-prev, .lightbox-next { font-size: 1.6rem; }
-    }
-  </style>
-
-  <script>
-    (function() {
-      const items = Array.from(document.querySelectorAll('#image-gallery .gallery-item'));
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      const btnClose = document.querySelector('.lightbox-close');
-      const btnPrev = document.querySelector('.lightbox-prev');
-      const btnNext = document.querySelector('.lightbox-next');
-      let currentIndex = 0;
-
-      if (!items.length) return;
-
-      function open(index) {
-        const img = items[index].querySelector('img');
-        lightboxImage.src = img.src;
-        lightboxImage.alt = img.alt || '';
-        lightboxCaption.textContent = img.alt || '';
-        currentIndex = index;
-
-
-        if (index === 4) {
-          lightboxImage.classList.add('rotated');
-        } else {
-          lightboxImage.classList.remove('rotated');
-        }
-
-        lightbox.setAttribute('aria-hidden', 'false');
-
-        btnClose.focus();
-      }
-
-      function close() {
-        lightbox.setAttribute('aria-hidden', 'true');
-      }
-
-      function showNext() {
-        currentIndex = (currentIndex + 1) % items.length;
-        open(currentIndex);
-      }
-      function showPrev() {
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        open(currentIndex);
-      }
-
-      items.forEach((btn, i) => {
-        btn.addEventListener('click', () => open(i));
-        btn.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            open(i);
-          }
-        });
-      });
-
-      btnClose.addEventListener('click', close);
-      btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
-      btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-
-
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) close();
-      });
-
-
-      document.addEventListener('keydown', (e) => {
-        if (lightbox.getAttribute('aria-hidden') === 'false') {
-          if (e.key === 'Escape') close();
-          if (e.key === 'ArrowRight') showNext();
-          if (e.key === 'ArrowLeft') showPrev();
-        }
-      });
-
-
-      const observer = new MutationObserver(() => {
-        if (lightbox.getAttribute('aria-hidden') === 'false') {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
-      });
-      observer.observe(lightbox, { attributes: true, attributeFilter: ['aria-hidden'] });
-    })();
-  </script>
-</section>
-
-
-
-
-
-
-
+    
+      <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close Lightbox">X</button>
+      </div>
+    </section>
   </main>
 </body>
 </html>
